@@ -1,12 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
+import "bufio"
 
-// Ler primeiro valor
-// Ler operação
-// Ler segundo valor
-// Realizar o cálculo
-// Imprimir o resultado do cálculo v0.1.0
 // Garantir que os valores sejam informados e que sejam númericos v0.1.1
 // Garantir que uma operação válida seja informada v0.1.2
 // Perguntar se deseja continuar calculando ou parar de calcular v0.2.0
@@ -17,10 +17,21 @@ import "fmt"
 
 func main() {
 	fmt.Println("Bem-vindos a magnifica calculadora feita em Golang!!!!!!!!!")
+	reader := bufio.NewReader(os.Stdin)
 
-	fmt.Println("Informe um valor!")
+	var invalido = true
 	var umValor float64
-	fmt.Scan(&umValor)
+	for invalido {
+		fmt.Println("Informe um valor!")
+		lido, _ := reader.ReadString('\n')
+		lido = lido[:len(lido)-1] // remove o 'enter' no final
+		if valor, err := strconv.ParseFloat(lido, 64); err == nil {
+			umValor = valor
+			invalido = false
+		} else {
+			fmt.Println("O valor informado é inválido!")
+		}
+	}
 
 	fmt.Println("Informe uma operação")
 	fmt.Println("1 - Somar")
@@ -30,9 +41,19 @@ func main() {
 	var operacao int
 	fmt.Scan(&operacao)
 
-	fmt.Println("Informe outro valor!")
+	invalido = true
 	var outroValor float64
-	fmt.Scan(&outroValor)
+	for invalido {
+		fmt.Println("Informe outro valor!")
+		lido, _ := reader.ReadString('\n')
+		lido = lido[:len(lido)-1] // remove o 'enter' no final
+		if valor, err := strconv.ParseFloat(lido, 64); err == nil {
+			outroValor = valor
+			invalido = false
+		} else {
+			fmt.Println("O valor informado é inválido!")
+		}
+	}
 
 	var sinal string
 	var resultado float64
