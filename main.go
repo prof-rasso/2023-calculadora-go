@@ -17,20 +17,20 @@ import "bufio"
 
 func main() {
 	fmt.Println("Bem-vindos a magnifica calculadora feita em Golang!!!!!!!!!")
-	reader := bufio.NewReader(os.Stdin)
+	scanner := bufio.NewScanner(os.Stdin)
 
-	var invalido = true
 	var umValor float64
-	for invalido {
+	var err error
+	for {
 		fmt.Println("Informe um valor!")
-		lido, _ := reader.ReadString('\n')
-		lido = lido[:len(lido)-1] // remove o 'enter' no final
-		if valor, err := strconv.ParseFloat(lido, 64); err == nil {
-			umValor = valor
-			invalido = false
-		} else {
-			fmt.Println("O valor informado é inválido!")
+		if scanner.Scan() {
+			text := scanner.Text()
+			umValor, err = strconv.ParseFloat(text, 64)
+			if err == nil {
+				break
+			}
 		}
+		fmt.Println("O valor informado é inválido")
 	}
 
 	fmt.Println("Informe uma operação")
@@ -41,18 +41,17 @@ func main() {
 	var operacao int
 	fmt.Scan(&operacao)
 
-	invalido = true
 	var outroValor float64
-	for invalido {
+	for {
 		fmt.Println("Informe outro valor!")
-		lido, _ := reader.ReadString('\n')
-		lido = lido[:len(lido)-1] // remove o 'enter' no final
-		if valor, err := strconv.ParseFloat(lido, 64); err == nil {
-			outroValor = valor
-			invalido = false
-		} else {
-			fmt.Println("O valor informado é inválido!")
+		if scanner.Scan() {
+			text := scanner.Text()
+			outroValor, err = strconv.ParseFloat(text, 64)
+			if err == nil {
+				break
+			}
 		}
+		fmt.Println("O valor informado é inválido")
 	}
 
 	var sinal string
