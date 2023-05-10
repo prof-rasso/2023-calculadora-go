@@ -7,7 +7,6 @@ import (
 )
 import "bufio"
 
-// Garantir que os valores sejam informados e que sejam númericos v0.1.1
 // Garantir que uma operação válida seja informada v0.1.2
 // Perguntar se deseja continuar calculando ou parar de calcular v0.2.0
 // Registrar os resultados
@@ -33,13 +32,22 @@ func main() {
 		fmt.Println("O valor informado é inválido")
 	}
 
-	fmt.Println("Informe uma operação")
-	fmt.Println("1 - Somar")
-	fmt.Println("2 - Subtrair")
-	fmt.Println("3 - Multiplicar")
-	fmt.Println("4 - Dividr")
 	var operacao int
-	fmt.Scan(&operacao)
+	for {
+		fmt.Println("Informe uma operação")
+		fmt.Println("1 - Somar")
+		fmt.Println("2 - Subtrair")
+		fmt.Println("3 - Multiplicar")
+		fmt.Println("4 - Dividr")
+		if scanner.Scan() {
+			text := scanner.Text()
+			operacao, err = strconv.Atoi(text)
+			if err == nil && operacao >= 1 && operacao <= 4 {
+				break
+			}
+		}
+		fmt.Println("O valor informado é inválido")
+	}
 
 	var outroValor float64
 	for {
