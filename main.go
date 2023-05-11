@@ -7,8 +7,6 @@ import (
 )
 import "bufio"
 
-// Registrar os resultados
-// Perguntar se deseja imprimir os ultimos resultados ao fechar o programa. v0.3.0
 // Transformação em arquivos. v0.4.0
 // Transformação para 'Orientação a Objetos' v1.0.0
 
@@ -17,6 +15,7 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	continuar := true
+	resultados := []string{}
 
 	for continuar {
 		var umValor float64
@@ -80,7 +79,9 @@ func main() {
 			resultado = umValor / outroValor
 		}
 
-		fmt.Printf("O resultado de %.2f %s %.2f é igual a %.2f \n", umValor, sinal, outroValor, resultado)
+		resultadoStr := fmt.Sprintf("O resultado de %.2f %s %.2f é igual a %.2f", umValor, sinal, outroValor, resultado)
+		fmt.Println(resultadoStr)
+		resultados = append(resultados, resultadoStr)
 
 		for {
 			fmt.Println("Deseja continuar calculando? 1-Sim 2-Não")
@@ -96,7 +97,27 @@ func main() {
 			}
 			fmt.Println("O valor informado é inválido")
 		}
-
 	}
+
+	var imprimir bool
+	for {
+		fmt.Println("Deseja imprimir os últimos resultados? 1-Sim 2-Não")
+		if scanner.Scan() {
+			text := scanner.Text()
+			textInt, err := strconv.Atoi(text)
+			if err == nil && (textInt == 1 || textInt == 2) {
+				imprimir = textInt == 1
+				break
+			}
+		}
+		fmt.Println("O valor informado é inválido")
+	}
+
+	if imprimir {
+		for i := len(resultados) - 1; i > 0; i-- {
+			fmt.Println(resultados[i])
+		}
+	}
+
 	fmt.Println("Bye bye!")
 }
