@@ -2,6 +2,7 @@ package terminal
 
 import (
 	"bufio"
+	"calculadora-go/core/operacao"
 	"fmt"
 	"os"
 	"strconv"
@@ -23,18 +24,18 @@ func LerFloat(label string) float64 {
 	}
 }
 
-func LerOperacao() int {
+func LerOperacao() (operacao.Operacao, error) {
 	for {
-		fmt.Println("Informe uma operação")
+		fmt.Println("Escolha uma operação.")
 		fmt.Println("1 - Somar")
 		fmt.Println("2 - Subtrair")
 		fmt.Println("3 - Multiplicar")
-		fmt.Println("4 - Dividr")
+		fmt.Println("4 - Dividir")
 		if scanner.Scan() {
 			text := scanner.Text()
-			operacao, err := strconv.Atoi(text)
-			if err == nil && operacao >= 1 && operacao <= 4 {
-				return operacao
+			op, err := strconv.Atoi(text)
+			if err == nil && op >= 1 && op <= 4 {
+				return operacao.NovaOperacao(op)
 			}
 		}
 		fmt.Println("O valor informado é inválido")
